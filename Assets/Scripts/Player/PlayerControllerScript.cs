@@ -12,6 +12,11 @@ public class PlayerControllerScript : MonoBehaviour {
     //Strength of jumps
     public float jumpForce = 10f;
 
+    //Ranged weapon currently equipped
+    public GameObject equippedRangedWeapon;
+    //Offset vector from with ranged weapon projectiles will be launched
+    public Vector3 rangedWeaponOffset = new Vector3(0.25f, 0f, 0f);
+
     //Force to "glue" character to ground
     public float groundingForce = 5f;
     //Transform used to check where the ground should be
@@ -22,6 +27,7 @@ public class PlayerControllerScript : MonoBehaviour {
     public PhysicsMaterial2D slipperyMat;
     //Normal material for ground
     public PhysicsMaterial2D normalMat;
+    
 
 
     //True if the character is facing right.  Used to flip image
@@ -34,13 +40,10 @@ public class PlayerControllerScript : MonoBehaviour {
 
 
     private Rigidbody2D rb;
-    //Used for null checking GameObjects
-    private GameObject dummy;
 
 	// Use this for initialization
 	void Start () {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        dummy = new GameObject();
 	}
 	
 
@@ -65,6 +68,10 @@ public class PlayerControllerScript : MonoBehaviour {
             Flip();
         else if (move < 0 && facingRight)
             Flip();
+        //Attacking code
+        if (Input.GetButtonDown("Fire1"))
+            ShootProjectile(equippedRangedWeapon);
+
     }
 
 	// Update is called once per frame
@@ -81,9 +88,10 @@ public class PlayerControllerScript : MonoBehaviour {
     void Flip()
     {
         facingRight = !facingRight;
-        Vector3 newScale = transform.localScale;
-        newScale.x *= -1;
-        transform.localScale = newScale;
+        if (facingRight)
+            transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        else
+            transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
 
     /* Used to control movement */
@@ -114,8 +122,8 @@ public class PlayerControllerScript : MonoBehaviour {
     void ShootProjectile (GameObject projectile)
     {
         //Just have to instantiate the projectile at the right position and let the projectile's script do the rest
-        GameObject active_projectile = Instantiate(projectile) as GameObject;
-        Rigidbody2D proj_rb = active_projectile.GetComponent<Rigidbody2D>();
+        Vector3 startPos = transform.TransformPoint(rangedWeaponOffset);
+        GameObject active_projectile = Instantiate(projectile, startPos, transform.rotation) as GameObject;
     }
 
 }

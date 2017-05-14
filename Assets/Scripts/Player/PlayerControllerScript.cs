@@ -68,10 +68,6 @@ public class PlayerControllerScript : MonoBehaviour {
             Flip();
         else if (move < 0 && facingRight)
             Flip();
-        //Attacking code
-        if (Input.GetButtonDown("Fire1"))
-            ShootProjectile(equippedRangedWeapon);
-
     }
 
 	// Update is called once per frame
@@ -82,7 +78,10 @@ public class PlayerControllerScript : MonoBehaviour {
         {
             Jump();
         }
-	}
+        //Attacking code
+        if (Input.GetButtonDown("Fire1"))
+            ShootProjectile(equippedRangedWeapon);
+    }
 
     /* Called to flip the character around the y axis */
     void Flip()
@@ -121,9 +120,12 @@ public class PlayerControllerScript : MonoBehaviour {
     Takes in a GameObject representing the character's current projectile weapon*/
     void ShootProjectile (GameObject projectile)
     {
-        //Just have to instantiate the projectile at the right position and let the projectile's script do the rest
+        //Just have to instantiate the projectile at the right position and let the projectile's script do as much as possible
         Vector3 startPos = transform.TransformPoint(rangedWeaponOffset);
-        GameObject active_projectile = Instantiate(projectile, startPos, transform.rotation) as GameObject;
+        GameObject active_projectile = Instantiate(projectile, startPos, Quaternion.identity) as GameObject;
+        float projectileForwardVelocity = active_projectile.GetComponent<ProjectileWeapon>().throwForce;
+        float projectileUpVelocity = active_projectile.GetComponent<ProjectileWeapon>().upForce;
+        active_projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileForwardVelocity * transform.right.x, projectileUpVelocity);
     }
 
 }

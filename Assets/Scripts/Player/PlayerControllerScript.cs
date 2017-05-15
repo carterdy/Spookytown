@@ -17,6 +17,9 @@ public class PlayerControllerScript : MonoBehaviour {
     //Offset vector from with ranged weapon projectiles will be launched
     public Vector3 rangedWeaponOffset = new Vector3(0.25f, 0f, 0f);
 
+    //Melee weapon currently equipped
+    public GameObject equippedMeleeWeapon;
+
     //Force to "glue" character to ground
     public float groundingForce = 5f;
     //Transform used to check where the ground should be
@@ -81,6 +84,8 @@ public class PlayerControllerScript : MonoBehaviour {
         //Attacking code
         if (Input.GetButtonDown("Fire1"))
             ShootProjectile(equippedRangedWeapon);
+        if (Input.GetButtonDown("Fire2"))
+            MeleeAttack(equippedMeleeWeapon);
     }
 
     /* Called to flip the character around the y axis */
@@ -126,6 +131,15 @@ public class PlayerControllerScript : MonoBehaviour {
         float projectileForwardVelocity = active_projectile.GetComponent<ProjectileWeapon>().throwForce;
         float projectileUpVelocity = active_projectile.GetComponent<ProjectileWeapon>().upForce;
         active_projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileForwardVelocity * transform.right.x, projectileUpVelocity);
+    }
+
+    /* Attempt to attack with the given melee weapon */
+    void MeleeAttack (GameObject meleeWeapon)
+    {
+        //First check to make sure the weapon isn't already out
+        if (!meleeWeapon.GetComponent<MeleeWeapon>().swinging)
+            //Activate the weapon
+            meleeWeapon.SetActive(true);
     }
 
 }

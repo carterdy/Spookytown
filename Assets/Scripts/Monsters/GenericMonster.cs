@@ -52,14 +52,6 @@ public abstract class GenericMonster : MonoBehaviour {
     /* Actions to perform when this monster collides with a trigger */
     void OnTriggerEnter (Collider other)
     {
-        //Check to see if it got hit by a weapon
-        if (other.CompareTag("MeleeWeapon")) {
-            //Do stuff like hit by melee
-            takeMeleeDamage(other.GetComponent<MeleeWeapon>().damage);
-        } else if (other.CompareTag("Projectile")) {
-            //do stuff like hit by ranged
-
-        }
     }
 
     /*****************************
@@ -89,9 +81,18 @@ public abstract class GenericMonster : MonoBehaviour {
     }
 
     /* Causes the monster to stagger */
-    void stagger()
+    IEnumerator stagger()
     {
         //Start an animation TO BE IMPLIMENTED
+        //TEMPORARY: flicker the monster.  Took my old code from Tandem
+        float flickerTime = 0.1f;
+        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
+        render.color = Color.black;
+        //Wait a sec
+        yield return new WaitForSeconds(flickerTime);
+        render.color = Color.white;
+
+        yield return null;
     }
 
     /* Deal damage to this monster equal to the damage given */
@@ -106,22 +107,31 @@ public abstract class GenericMonster : MonoBehaviour {
     }
 
     /* Deal damage to this monster from a melee source */
-    void takeMeleeDamage(int damage)
+    public void takeMeleeDamage(int damage)
     {
-        stagger();
+        StartCoroutine(stagger());
         takeDamage(damage);
     }
 
     /* Deal damage to this monster from a ranged source */
-    void takeRangedDamage(int damage)
+    public void takeRangedDamage(int damage)
     {
-        wince();
+        StartCoroutine(wince());
         takeDamage(damage);
     }
 
     /* Cause the monster to wince */
-    void wince()
+    IEnumerator wince()
     {
         //Start animation TO BE IMPLIMENTED
+        //TEMPORARY: flicker the monster.  Took my old code from Tandem
+        float flickerTime = 0.1f;
+        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
+        render.color = Color.black;
+        //Wait a sec
+        yield return new WaitForSeconds(flickerTime);
+        render.color = Color.white;
+
+        yield return null;
     }
 }

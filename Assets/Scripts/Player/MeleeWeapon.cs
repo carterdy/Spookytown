@@ -8,6 +8,8 @@ public abstract class MeleeWeapon : MonoBehaviour {
     public Vector3 handPosition;
     //True when sword is being swung
     public bool swinging = false;
+    //Damage dealt by this weapon
+    public int damage;
 
     void Awake()
     {

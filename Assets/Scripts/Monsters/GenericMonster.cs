@@ -12,11 +12,17 @@ public abstract class GenericMonster : MonoBehaviour {
     public float aggroRange;
     //Monster's hit points
     public int HP;
+    //Force the monster staggers with
+    public float staggerForce;
 
     //The player's last known location
     protected Transform playerLoc;
     //This monster's rigid body
     protected Rigidbody2D rb;
+
+    /*****************************
+        Monobehaviour Functions
+    *****************************/
 
     // Use this for initialization
     void Awake()
@@ -49,9 +55,21 @@ public abstract class GenericMonster : MonoBehaviour {
         //Check to see if it got hit by a weapon
         if (other.CompareTag("MeleeWeapon")) {
             //Do stuff like hit by melee
+            takeMeleeDamage(other.GetComponent<MeleeWeapon>().damage);
         } else if (other.CompareTag("Projectile")) {
             //do stuff like hit by ranged
+
         }
+    }
+
+    /*****************************
+           Custom Functions
+    *****************************/
+    /* Kill this monster */
+    void die ()
+    {
+        //Play a death animation (so this will have to become a coroutine eventually I guess)
+        Destroy(gameObject);
     }
 
     /* Move this actor towards the target transform.
@@ -70,5 +88,40 @@ public abstract class GenericMonster : MonoBehaviour {
         return aggroRange * aggroRange > ((playerLoc.position - transform.position).sqrMagnitude);
     }
 
+    /* Causes the monster to stagger */
+    void stagger()
+    {
+        //Start an animation TO BE IMPLIMENTED
+    }
 
+    /* Deal damage to this monster equal to the damage given */
+    void takeDamage(int damage)
+    {
+        HP--;
+        if (HP <= 0)
+        {
+            //R.I.P
+            die();
+        }
+    }
+
+    /* Deal damage to this monster from a melee source */
+    void takeMeleeDamage(int damage)
+    {
+        stagger();
+        takeDamage(damage);
+    }
+
+    /* Deal damage to this monster from a ranged source */
+    void takeRangedDamage(int damage)
+    {
+        wince();
+        takeDamage(damage);
+    }
+
+    /* Cause the monster to wince */
+    void wince()
+    {
+        //Start animation TO BE IMPLIMENTED
+    }
 }

@@ -32,7 +32,7 @@ public abstract class ProjectileWeapon : MonoBehaviour {
         //If we hit an enemy
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<GenericMonster>().takeRangedDamage(damage);
+            other.gameObject.SendMessage("takeRangedDamage", damage, SendMessageOptions.RequireReceiver);
         }
     }
 }

@@ -98,7 +98,7 @@ public abstract class GenericMonster : MonoBehaviour {
     /* Deal damage to this monster equal to the damage given */
     void takeDamage(int damage)
     {
-        HP--;
+        HP -= damage;
         if (HP <= 0)
         {
             //R.I.P

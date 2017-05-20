@@ -11,6 +11,10 @@ public abstract class MeleeWeapon : MonoBehaviour {
     //Damage dealt by this weapon
     public int damage;
 
+    /*****************************
+        Monobehaviour Functions
+    *****************************/
+
     void Awake()
     {
         swinging = true;
@@ -25,6 +29,20 @@ public abstract class MeleeWeapon : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    // Handle collisions from this weapon
+    void OnTriggerEnter2D (Collider2D other)
+    {
+        //Hit an enemy
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SendMessage("takeMeleeDamage", damage, SendMessageOptions.RequireReceiver);
+        }
+    }
+
+    /*****************************
+           Custom Functions
+    *****************************/
 
     // Destroys weapon at end of animation
     void endAttack ()

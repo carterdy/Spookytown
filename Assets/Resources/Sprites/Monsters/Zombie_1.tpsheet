@@ -1,0 +1,16 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:20de06d3b95d8c38fac9459bbf815cf9:dba2aee9b2cd556e8a813b6d6cff0361:1cab4cb3c611927d21ec948f93f5c720$
+#
+:format=40300
+:texture=Zombie_1.png
+:size=256x256
+:pivotpoints=enabled
+:borders=disabled
+
+Zombie_simple_arm_4x;88;144;101;111; 0.6336633663366337;0.2702702702702703; 0;0;0;0; 6;101;34;66;29;46;0;0;1;0;36;101;111; 4;1;4;5;2;3;4;1;2;4;0;1;5
+Zombie_simple_torso_4x;1;15;87;240; 0.3333333333333333;0.5; 0;0;0;0; 8;87;197;74;0;5;0;28;57;28;167;0;167;0;240;65;240; 6;4;6;7;4;5;6;3;0;1;1;2;3;3;4;0;0;4;7

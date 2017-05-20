@@ -19,16 +19,22 @@ public abstract class GenericMonster : MonoBehaviour {
     protected Transform playerLoc;
     //This monster's rigid body
     protected Rigidbody2D rb;
+    //This monster's Animator
+    protected Animator animator;
+
+    //True if the monster should be facing right
+    bool facingRight;
 
     /*****************************
         Monobehaviour Functions
     *****************************/
 
     // Use this for initialization
-    void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,7 +43,7 @@ public abstract class GenericMonster : MonoBehaviour {
 
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         //Want to get the player's location so we can use it for things
         playerLoc = player.transform;
@@ -64,6 +70,16 @@ public abstract class GenericMonster : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    /* Flip the character around the y axis */
+    void Flip()
+    {
+        facingRight = !facingRight;
+        if (facingRight)
+            transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        else
+            transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+    }
+
     /* Move this actor towards the target transform.
        Movement is only in the x axis*/
     void moveToTarget(Transform target)
@@ -71,6 +87,11 @@ public abstract class GenericMonster : MonoBehaviour {
         Vector2 heading = target.position - transform.position;
         Vector2 direction = heading / heading.magnitude;
         rb.AddForce(new Vector2(direction.x, 0) * moveSpeed);
+        //Now make sure we're facing the right way
+        if (facingRight && rb.velocity.x > 0)
+            Flip();
+        else if (!facingRight && rb.velocity.x < 0)
+            Flip();
     }
 
     /* Return True if the player is within the aggro range of this monster */

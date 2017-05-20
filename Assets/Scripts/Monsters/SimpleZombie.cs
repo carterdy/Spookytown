@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleZombie : GenericMonster {
+public class SimpleZombie : MeleeAttackingMonster {
 
 
 	// Use this for initialization

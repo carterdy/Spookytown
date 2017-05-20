@@ -4,9 +4,7 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : MonoBehaviour {
 
-    //The player's 'hand' position from which the weapon will be held
-    public Vector3 handPosition;
-    //True when sword is being swung
+    //True when the weapon is being swung
     public bool swinging = false;
     //Damage dealt by this weapon
     public int damage;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GenericMonster : MonoBehaviour {
+public abstract class GenericMonster : ActorControllerScript {
 
     //Reference to player
     public GameObject player;
@@ -10,8 +10,6 @@ public abstract class GenericMonster : MonoBehaviour {
     public float moveSpeed;
     //Monster's aggro range as a vector distance
     public float aggroRange;
-    //Monster's hit points
-    public int HP;
     //Force the monster staggers with
     public float staggerForce;
 
@@ -21,9 +19,6 @@ public abstract class GenericMonster : MonoBehaviour {
     protected Rigidbody2D rb;
     //This monster's Animator
     protected Animator animator;
-
-    //True if the monster should be facing right
-    bool facingRight;
 
     /*****************************
         Monobehaviour Functions
@@ -63,22 +58,6 @@ public abstract class GenericMonster : MonoBehaviour {
     /*****************************
            Custom Functions
     *****************************/
-    /* Kill this monster */
-    void die ()
-    {
-        //Play a death animation (so this will have to become a coroutine eventually I guess)
-        Destroy(gameObject);
-    }
-
-    /* Flip the character around the y axis */
-    void Flip()
-    {
-        facingRight = !facingRight;
-        if (facingRight)
-            transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-        else
-            transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
-    }
 
     /* Move this actor towards the target transform.
        Movement is only in the x axis*/
@@ -99,60 +78,5 @@ public abstract class GenericMonster : MonoBehaviour {
     {
         //Using squared values since the Unity manual says it is more effienct to not calculate the full magnitude
         return aggroRange * aggroRange > ((playerLoc.position - transform.position).sqrMagnitude);
-    }
-
-    /* Causes the monster to stagger */
-    IEnumerator stagger()
-    {
-        //Start an animation TO BE IMPLIMENTED
-        //TEMPORARY: flicker the monster.  Took my old code from Tandem
-        float flickerTime = 0.1f;
-        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
-        render.color = Color.black;
-        //Wait a sec
-        yield return new WaitForSeconds(flickerTime);
-        render.color = Color.white;
-
-        yield return null;
-    }
-
-    /* Deal damage to this monster equal to the damage given */
-    void takeDamage(int damage)
-    {
-        HP -= damage;
-        if (HP <= 0)
-        {
-            //R.I.P
-            die();
-        }
-    }
-
-    /* Deal damage to this monster from a melee source */
-    public void takeMeleeDamage(int damage)
-    {
-        StartCoroutine(stagger());
-        takeDamage(damage);
-    }
-
-    /* Deal damage to this monster from a ranged source */
-    public void takeRangedDamage(int damage)
-    {
-        StartCoroutine(wince());
-        takeDamage(damage);
-    }
-
-    /* Cause the monster to wince */
-    IEnumerator wince()
-    {
-        //Start animation TO BE IMPLIMENTED
-        //TEMPORARY: flicker the monster.  Took my old code from Tandem
-        float flickerTime = 0.1f;
-        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
-        render.color = Color.black;
-        //Wait a sec
-        yield return new WaitForSeconds(flickerTime);
-        render.color = Color.white;
-
-        yield return null;
     }
 }

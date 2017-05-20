@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerScript : MonoBehaviour {
+public class PlayerControllerScript : ActorControllerScript {
 
     /* Most of basis for movement from Code from https://unity3d.com/learn/tutorials/topics/2d-game-creation/2d-character-controllers 
     --since I don't know great ways to do jumping */
@@ -30,11 +30,6 @@ public class PlayerControllerScript : MonoBehaviour {
     public PhysicsMaterial2D slipperyMat;
     //Normal material for ground
     public PhysicsMaterial2D normalMat;
-    
-
-
-    //True if the character is facing right.  Used to flip image
-    bool facingRight = true;
 
     //To tell when grounded
     bool grounded = false;
@@ -86,16 +81,6 @@ public class PlayerControllerScript : MonoBehaviour {
             ShootProjectile(equippedRangedWeapon);
         if (Input.GetButtonDown("Fire2"))
             MeleeAttack(equippedMeleeWeapon);
-    }
-
-    /* Called to flip the character around the y axis */
-    void Flip()
-    {
-        facingRight = !facingRight;
-        if (facingRight)
-            transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-        else
-            transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
 
     /* Used to control movement */

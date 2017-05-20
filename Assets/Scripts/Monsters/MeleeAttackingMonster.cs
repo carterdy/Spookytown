@@ -8,6 +8,10 @@ public class MeleeAttackingMonster : GenericMonster {
 
     //Melee attack range of this monster
     public float attackRange;
+    //Cooldown timer for attacking
+    public float attackCooldown;
+
+    private bool attackOnCooldown = false;
 
     /*****************************
         Monobehaviour Functions
@@ -31,9 +35,9 @@ public class MeleeAttackingMonster : GenericMonster {
     protected override void FixedUpdate()
     {
         //Check to see if player is in attack range
-        if (playerInAttackRange())
+        if (playerInAttackRange() && !attackOnCooldown)
         {
-            meleeAttack();
+            StartCoroutine(meleeAttack());
         }
         base.FixedUpdate();
     }
@@ -43,10 +47,15 @@ public class MeleeAttackingMonster : GenericMonster {
     *****************************/
 
     /* Perform a melee attack */
-    void meleeAttack()
+    IEnumerator meleeAttack()
     {
         //TODO: Play attacking animation and swing monster's weapon
         animator.SetTrigger("Attack");
+        //Start a cooldown timer
+        attackOnCooldown = true;
+        yield return new WaitForSeconds(attackCooldown);
+        attackOnCooldown = false;
+        yield return null;
     }
 
     /* Return True if the player is within this monster's attack range */

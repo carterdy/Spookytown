@@ -35,7 +35,7 @@ public abstract class GenericMonster : ActorControllerScript {
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     protected virtual void FixedUpdate()
@@ -59,18 +59,32 @@ public abstract class GenericMonster : ActorControllerScript {
            Custom Functions
     *****************************/
 
+    /* Move this actor in the given direction indefinately */
+    protected void Move (Vector2 direction)
+    {
+        rb.velocity = new Vector2(direction.x * moveSpeed, direction.y);
+        //Now make sure we're facing the right way
+        Debug.Log(rb.velocity);
+        Debug.Log(facingRight);
+        if (direction.x <= 0)
+            faceLeftMonster();
+        else if (direction.x > 0)
+            faceRightMonster();
+    }
+
+    /* Stop moving this actor */
+    protected void stopMovement ()
+    {
+        rb.velocity = new Vector2(0, 0);
+    }
+
     /* Move this actor towards the target transform.
        Movement is only in the x axis*/
-    void moveToTarget(Transform target)
+    void moveToTarget (Transform target)
     {
         Vector2 heading = target.position - transform.position;
         Vector2 direction = heading / heading.magnitude;
-        rb.AddForce(new Vector2(direction.x, 0) * moveSpeed);
-        //Now make sure we're facing the right way
-        if (facingRight && rb.velocity.x > 0)
-            Flip();
-        else if (!facingRight && rb.velocity.x < 0)
-            Flip();
+        Move(new Vector2(direction.x, 0));
     }
 
     /* Return True if the player is within the aggro range of this monster */

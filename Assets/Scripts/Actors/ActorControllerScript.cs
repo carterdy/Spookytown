@@ -34,6 +34,40 @@ public abstract class ActorControllerScript : MonoBehaviour {
             transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
 
+    /* These functions are kinda dumb but because I can't draw all sprites facing the same direction nicely and incase I forget to flip them */
+
+    /* Face the actor to the right
+       Use for sprites originally facing right */
+    protected void faceRightPlayer ()
+    {
+        facingRight = true;
+        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
+    /* Face the actor to the left
+       Use for sprites originally facing right */
+    protected void faceLeftPlayer ()
+    {
+        facingRight = false;
+        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+    }
+
+    /* Face the actor to the right
+       Use for sprites originally facing left */
+    protected void faceRightMonster ()
+    {
+        facingRight = true;
+        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+    }
+
+    /* Face the actor to the left
+       Use for sprites originally facing left */
+    protected void faceLeftMonster ()
+    {
+        facingRight = false;
+        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
     /* Kill this monster */
     void die()
     {

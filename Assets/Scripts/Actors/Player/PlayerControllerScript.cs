@@ -39,8 +39,12 @@ public class PlayerControllerScript : ActorControllerScript {
 
     private Rigidbody2D rb;
 
-	// Use this for initialization
-	void Start () {
+    /*****************************
+       Monobehaviour Functions
+    *****************************/
+
+    // Use this for initialization
+    void Start () {
         rb = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
@@ -62,10 +66,10 @@ public class PlayerControllerScript : ActorControllerScript {
         float move = Input.GetAxis("Horizontal");
         Move(move);
         //Check to see if we need to flip around
-        if (move > 0 && !facingRight)
-            Flip();
-        else if (move < 0 && facingRight)
-            Flip();
+        if (move > 0)
+            faceRightPlayer();
+        else if (move < 0)
+            faceLeftPlayer();
     }
 
 	// Update is called once per frame
@@ -82,6 +86,10 @@ public class PlayerControllerScript : ActorControllerScript {
         if (Input.GetButtonDown("Fire2"))
             MeleeAttack(equippedMeleeWeapon);
     }
+
+    /*****************************
+          Custom Functions
+    *****************************/
 
     /* Used to control movement */
     void Move(float movement_in)

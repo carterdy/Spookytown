@@ -8,16 +8,42 @@ public class SimpleZombie : MeleeAttackingMonster {
     public int shamblePeriodicLowEnd;
     public int shamblePeriodicHighEnd;
     //Low and high range duration for shambling
-    public int shambleDurationLowEnd;
-    public int shambleDurationhighEnd;
+    public float shambleDurationLowEnd;
+    public float shambleDurationHighEnd;
 
-	// Use this for initialization
-	void Start () {
+    /*****************************
+        Monobehaviour Functions
+    *****************************/
+    void Start()
+    {
+        StartCoroutine(Shamble());
+    }
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    /*****************************
+           Custom Functions
+    *****************************/
+
+    /* Initiate a cycle the zombie's random shambling.
+       Zombie will walk back and forth for a random duration determined by shambleDuration and repeat randomly determined by shamblePeriodic*/
+    IEnumerator Shamble()
+    {
+        //Get new shamble duration
+        float duration = Random.Range(shambleDurationLowEnd, shambleDurationHighEnd);
+        Vector2 direction;
+        if (facingRight)
+            direction = new Vector2(-1, 0);
+        else
+            direction = Vector2.right;
+        //Move for the duration
+        while (duration > 0)
+        {
+            Move(direction);
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+        //Wait a new random time to shamble again
+        float waitTime = Random.Range(shamblePeriodicLowEnd, shamblePeriodicHighEnd);
+        yield return new WaitForSeconds(waitTime);
+        StartCoroutine(Shamble());
+    }
 }

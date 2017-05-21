@@ -4,7 +4,7 @@ using UnityEngine;
 
 /* Parent script for monsters that attack in melee */
 
-public class MeleeAttackingMonster : GenericMonster {
+public abstract class MeleeAttackingMonster : GenericMonster {
 
     //Melee attack range of this monster
     public float attackRange;
@@ -21,16 +21,6 @@ public class MeleeAttackingMonster : GenericMonster {
     {
         base.Awake();
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     protected override void FixedUpdate()
     {
